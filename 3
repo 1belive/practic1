@@ -1,0 +1,79 @@
+Таблица: Users
+
+user_id (PK)
+email
+password_hash
+full_name
+
+
+Таблица: Accommodations
+
+hotel_id (PK)
+destination_id (FK)
+name
+address
+rating
+
+
+Таблица: Rooms
+
+room_id (PK)
+hotel_id (FK)
+room_type (стандарт, люкс)
+price_per_night
+
+
+Таблица: Flights
+
+flight_id (PK)
+departure_city
+arrival_city
+departure_time
+price
+
+
+Таблица: Bookings
+
+booking_id (PK)
+user_id (FK)
+booking_type (отель / перелет / пакет)
+status (pending, confirmed, cancelled)
+total_price
+created_at
+
+--------------------------------------------
+
+erDiagram
+    USERS ||--o{ BOOKINGS : makes
+    DESTINATIONS ||--o{ ACCOMMODATIONS : contains
+    ACCOMMODATIONS ||--o{ ROOMS : offers
+    ROOMS ||--o{ BOOKINGS : books
+    FLIGHTS ||--o{ BOOKINGS : includes
+    BOOKINGS ||--|| PAYMENTS : processed_by
+
+    USERS {
+        int user_id PK
+        string email
+        string name
+    }
+    BOOKINGS {
+        int booking_id PK
+        int user_id FK
+        string status
+        decimal total_amount
+    }
+    ACCOMMODATIONS {
+        int hotel_id PK
+        int destination_id FK
+        string name
+    }
+    ROOMS {
+        int room_id PK
+        int hotel_id FK
+        decimal price
+    }
+    FLIGHTS {
+        int flight_id PK
+        string flight_number
+        decimal price
+    }
